@@ -1,0 +1,64 @@
+<%- include('layouts/main', { 
+  title: 'Início',
+  user: user,
+  message: message,
+  messageType: messageType,
+  body: `
+    <div class="page-header text-center">
+        <h1><i class="bi bi-egg-fried"></i> Compartilha Lanche</h1>
+        <p class="lead">Organize seu lanche coletivo de forma simples e colaborativa!</p>
+    </div>
+
+    <div class="row g-4 mt-3">
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4">
+                <div class="card-body">
+                    <i class="bi bi-person-plus display-1 text-success"></i>
+                    <h5 class="card-title mt-3">Cadastre-se</h5>
+                    <p class="card-text text-muted">Crie sua conta para participar da organização dos lanches.</p>
+                    <a href="/register" class="btn btn-success-custom">Cadastrar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4">
+                <div class="card-body">
+                    <i class="bi bi-egg display-1 text-warning"></i>
+                    <h5 class="card-title mt-3">Compartilhe</h5>
+                    <p class="card-text text-muted">Informe o lanche que você vai levar e evite repetições.</p>
+                    <a href="/snacks" class="btn btn-outline-success-custom">Ver Lanches</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-4">
+                <div class="card-body">
+                    <i class="bi bi-people display-1 text-primary"></i>
+                    <h5 class="card-title mt-3">Colabore</h5>
+                    <p class="card-text text-muted">Veja o que cada um vai levar e organize seu lanche.</p>
+                    <a href="/login" class="btn btn-outline-success-custom">Entrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if (snacks && snacks.length > 0) { %>
+        <div class="mt-5">
+            <h3 class="text-center mb-4 text-success fw-bold">
+                <i class="bi bi-list-ul"></i> Últimas Contribuições
+            </h3>
+            <div class="list-group">
+                <% snacks.forEach(snack => { %>
+                    <div class="snack-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong><%= snack.item %></strong>
+                            <span class="badge-date ms-2"><i class="bi bi-calendar3"></i> <%= snack.date %></span>
+                        </div>
+                        <span class="badge-user"><i class="bi bi-person"></i> <%= snack.User ? snack.User.name : 'Usuário' %></span>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    <% } %>
+  `
+}) %>
