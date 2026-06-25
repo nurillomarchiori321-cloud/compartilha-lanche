@@ -1,60 +1,53 @@
+require('dotenv').config();
+
+const createError = require('http-errors');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
-// Importação do banco
 const sequelize = require('./config/database');
 
 const app = express();
+const sessionSecret = process.env.SESSION_SECRET || 'compartilha-lanche-render-secret';
 
-// Configuração de sessão
+if (!process.env.SESSION_SECRET && process.env.NODE_ENV !== 'test') {
+  console.warn('SESSION_SECRET nao definido. Usando segredo padrao temporario.');
+}
+
 app.use(session({
-  secret: 'compartilha-lanche-secret',
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
 }));
 
-// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Middlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configuração para servir arquivos estáticos do Bootstrap
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 
-// ============ ROTAS ============
-// Remove as rotas padrão e usa a nossa
 app.use('/', require('./routes/index'));
 
+app.ready = sequelize.authenticate()
+  .then(() => sequelize.sync())
+  .then(() => console.log('Conexao com SQLite OK e tabelas sincronizadas!'));
 
-sequelize.authenticate()
-  .then(() => console.log(' Conexão com SQLite OK!'))
-  .catch(err => console.error(' Erro na conexão:', err));
-
-
-      console.log(' Tabelas sincronizadas!');
- 
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
