@@ -6,7 +6,7 @@
     "node": "22.x"
   },
   "scripts": {
-    "postinstall": "npm rebuild sqlite3",
+   
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "vitest",
@@ -27,7 +27,7 @@
     "http-errors": "~1.6.3",
     "morgan": "^1.11.0",
     "sequelize": "^6.37.8",
-    "sqlite3": "^6.0.1"
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.9",
