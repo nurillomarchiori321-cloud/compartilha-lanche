@@ -1,7 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { Sequelize } from 'sequelize';
-
-// BANCO EM MEMÓRIA
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: ':memory:',
@@ -11,8 +9,6 @@ const sequelize = new Sequelize({
     underscored: true,
   }
 });
-
-// Define os models com validações
 const User = sequelize.define('User', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: Sequelize.STRING, allowNull: false },
@@ -79,7 +75,6 @@ describe('Model SnackContribution - Testes Unitários', () => {
         date: '2026-06-20',
         userId: user.id
       });
-      // Se chegou aqui, o teste deve falhar
       expect(true).toBe(false);
     } catch (error) {
       expect(error).toBeDefined();

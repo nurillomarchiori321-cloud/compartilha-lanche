@@ -14,7 +14,7 @@ describe('Testes de Lanches - Integração', () => {
   });
 
   beforeEach(async () => {
-    // 🔥 Limpa tudo e cria um usuário novo para cada teste
+  
     await SnackContribution.destroy({ where: {} });
     await User.destroy({ where: {} });
     
@@ -23,13 +23,11 @@ describe('Testes de Lanches - Integração', () => {
       email: 'lanches_' + Date.now() + '@teste.com',
       password: 'senha123'
     });
-
-    // Faz login e verifica se deu certo
     const login = await agent.post('/login').send({
       email: user.email,
       password: 'senha123'
     });
-    expect(login.status).toBe(302); // se falhar, o teste para
+    expect(login.status).toBe(302);
   });
 
   it('deve permitir usuário logado cadastrar lanche', async () => {

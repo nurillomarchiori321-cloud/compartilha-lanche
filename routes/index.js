@@ -3,8 +3,6 @@ const router = express.Router();
 const User = require('../models/User');
 const SnackContribution = require('../models/SnackContribution');
 const bcrypt = require('bcryptjs');
-
-// ==================== PÁGINA INICIAL ====================
 router.get('/', async function(req, res, next) {
   try {
     const snacks = await SnackContribution.findAll({
@@ -26,8 +24,6 @@ router.get('/', async function(req, res, next) {
     });
   }
 });
-
-// ==================== CADASTRO ====================
 router.get('/register', (req, res) => {
   res.render('register', { 
     title: 'Cadastro',
@@ -59,8 +55,6 @@ router.post('/register', async (req, res) => {
     });
   }
 });
-
-// ==================== LOGIN ====================
 router.get('/login', (req, res) => {
   res.render('login', { 
     title: 'Login',
@@ -106,14 +100,10 @@ router.post('/login', async (req, res) => {
     });
   }
 });
-
-// ==================== LOGOUT ====================
 router.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
-
-// ==================== LISTAR LANCHES ====================
 router.get('/snacks', async (req, res) => {
   try {
     const snacks = await SnackContribution.findAll({
@@ -134,8 +124,6 @@ router.get('/snacks', async (req, res) => {
     });
   }
 });
-
-// ==================== NOVO LANCHE ====================
 router.get('/snacks/new', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
@@ -212,8 +200,6 @@ router.post('/snacks', async (req, res) => {
     });
   }
 });
-
-// ==================== EDITAR LANCHE ====================
 router.get('/snacks/:id/edit', async (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
@@ -286,8 +272,6 @@ router.post('/snacks/:id/edit', async (req, res) => {
     res.redirect('/snacks');
   }
 });
-
-// ==================== EXCLUIR LANCHE ====================
 router.post('/snacks/:id/delete', async (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');

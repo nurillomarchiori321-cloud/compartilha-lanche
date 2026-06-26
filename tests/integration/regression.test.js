@@ -27,15 +27,12 @@ describe('Testes de Regressão', () => {
   });
 
   it('deve manter a lista após criar lanche', async () => {
-    // Cria um lanche
     await agent.post('/snacks').send({ item: 'Pizza', date: '2026-06-25' });
-    // Verifica se aparece na lista
     const response = await agent.get('/snacks');
     expect(response.text).toContain('Pizza');
   });
 
   it('deve manter a lista após editar lanche', async () => {
-    // Cria e depois edita
     await agent.post('/snacks').send({ item: 'Pizza', date: '2026-06-25' });
     const snack = await SnackContribution.findOne({ where: { item: 'Pizza' } });
     await agent.post(`/snacks/${snack.id}/edit`).send({ item: 'Pizza Grande', date: '2026-06-25' });

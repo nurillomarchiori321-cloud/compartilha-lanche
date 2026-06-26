@@ -1,7 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { Sequelize } from 'sequelize';
-
-//  BANCO EM MEMÓRIA
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: ':memory:',
