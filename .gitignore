@@ -62,4 +62,3 @@ database.test-*.sqlite
 
 # next.js build output
 .next
-package-lock.json 

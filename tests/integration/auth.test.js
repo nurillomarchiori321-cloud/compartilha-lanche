@@ -1,23 +1,18 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import request from 'supertest';
 import app from '../../app.js';
-import sequelize from '../../config/database.js';
 import User from '../../models/User.js';
+import './setup.js';
 
 describe('Testes de Autenticação - Integração', () => {
   let agent;
 beforeAll(async () => {
-  await sequelize.sync({ force: true });
   agent = request.agent(app);
 });
 
 beforeEach(async () => {
   await User.destroy({ where: {} });
 });
-
-  afterAll(async () => {
-    await sequelize.close();
-  });
 
   it('deve cadastrar um novo usuário', async () => {
     const response = await agent
